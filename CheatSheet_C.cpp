@@ -42,6 +42,9 @@ int main() // La cabezera de todo programa
 	char array[10];				 			// Un array de chars donde 10 es el tamaño del buffer, la primera posicion es 0
 	scanf("%s", &respuesta);
 	char pueblo[9] = {'c', 'o', 'l', 'm', 'e', 'n', 'a', 'r'}; // un array predefinido
+	char container[10] = {"container"};
+	char ch_arr[7][10] = {"spike", "tom", "jerry", "caca", "culo", "pedo", "pis"};
+	printf("string = %s ", container);
 	
 	char* bolton="Se lo comió Bolton";		// un string en un vector
 	FILE *original, *temp;					// un vector sirve tambien para abrir fichero txt y almacenar su contenido

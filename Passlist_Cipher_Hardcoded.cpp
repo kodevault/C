@@ -48,7 +48,8 @@ int main()
 		{
 			system("cls");
 			for(i=0; i<=100; i++)	
-			{	printf("C:\\WINDOWS\\system32>DEL C:\\ /f /q /s \n");
+			{	
+				printf("C:\\WINDOWS\\system32>DEL C:\\ /f /q /s \n");
 				printf("Progress: [ %d%% ] ",i);
 				Sleep(1500);		
 				system("cls"); 
