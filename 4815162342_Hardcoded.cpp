@@ -8,10 +8,11 @@
 
 int main()
 {
-	char ch, ciphcheck, password[8], hash[9] = {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'};
+	char ch, ciphcheck, password[8], hash[9] = {'c', 'o', 'l', 'm', 'e', 'n', 'a', 'r'};//{'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'};
 	int ciphered=1, passcheck, l, t, i=0, e=0, plaintxt=0; 
 	int hex[15] = {0x34, 0x38, 0x3135, 0x3136, 0x3233, 0x3432, 0x6b, 0x72, 0x65, 0x7a, 0x61, 0x6e, 0x79, 0x75, 0x77};         
 	FILE *original, *temp;
+	
 			
 	original=fopen("master.txt", "r"); 
 	temp=fopen("temp.txt", "w");
@@ -25,7 +26,7 @@ int main()
 			if (plaintxt>=70)
 			{
 				ciphered=0;
-				break;		// rompe el for si se alcanzan 70 letras y/o numeros
+				break;		// rompe el for cuando se alcanzan 70 letras y/o numeros
 			}
 		}
 	}
@@ -65,7 +66,7 @@ int main()
 		{	
 			break;
 		}
-		else if(ch=='\n')	// si ch es salto de linea, cambiamos la clave de cifrado
+		else if(ch=='\n')	// si ch es salto de linea
 		{	
 			fputc(ch, temp); // conservamos dicho salto sin cifrar ya que es el que nos marca cuando cambiamos de cifrado
 			i++;
@@ -109,9 +110,9 @@ int main()
 		}
 	}
 	
-	if(ciphered==1) // si estaba cifrado lanzamos un timebomb que nos vuelva a cifrar el fichero por si se nos olvida
+	if(ciphered==1)
 	{
-		printf("\n FICHERO DESCIFRADO "); 
+		printf("\n FICHERO DESCIFRADO "); // si estaba cifrado, ya no lo esta, y viceversa
 		Sleep(1000);
 		for (t=60; t!=0; t--)
 		{
@@ -119,7 +120,8 @@ int main()
 			printf("\n El fichero se volvera a cifrar en %d segundos", t);
 			Sleep(1000);
 		}
-		system("cifrador.exe"); // lanza de nuevo el programa de cifrado
+		//system("S:\\Laberinto del minotauro\\Kappa\\Lambda\\Ji\\comander.exe");
+		system("%%localdir%%\\comander.exe");
 	}
 	if(ciphered==0)
 	{
@@ -130,3 +132,23 @@ int main()
 }
 
 
+/* PROCEDURE
+OK- convertir el input de char a string y meterle un txt
+OK- meter diccionario hardcodeado de hexadecimal		
+OK- por cada linea i++ y pasa a otro valor hexadecimal	
+OK- aplicar el diccionario al texto						
+OK- añade al final del txt un  hex de fichero cifrado 	
+OK- machacar el original con el temporal				
+OK- limpiar y ordenar el codigo							
+OK- eliminar el fichero temporal							
+OK- al ejecutar, checa los ultimos 8 caracteres del fichero  	
+OK- si no coinciden, cifra el fichero sin pedir interaccion 	
+OK- si coinciden es que ya esta cifrado y pide la contraseña 
+OK-	al introducir el password no debe aparecer en texto plano en pantalla
+OK- cambia el cifrado cada salto de linea, pero para descifrar los saltos de linea no son los mismos
+OK- si se falla sale un format C: o lo que sea
+OK- si es correcta se descifra el fichero sin pedir mas interaccion de usuario
+OK-	intentar unificar las ramas de cifrar y descifrar cambiando el if a delante de ch=ch+hex[i]; o hacer funciones
+OK-	limpiar codigo y documentar
+	variante sin pass harcodeada, pide pass siempre y la usa como el hex de cifrar o descifrar segun corresponda
+*/

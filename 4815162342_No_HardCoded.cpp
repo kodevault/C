@@ -8,10 +8,22 @@
 
 int main()
 {
-	char ch, ciphcheck, password[8], hash[9] = {'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x'};
-	int ciphered=1, passcheck, l, t, i=0, e=0, plaintxt=0; 
-	int hex[15] = {0x34, 0x38, 0x3135, 0x3136, 0x3233, 0x3432, 0x6b, 0x72, 0x65, 0x7a, 0x61, 0x6e, 0x79, 0x75, 0x77};         
+	char ch, ciphcheck, password[8], hash3[], hash2[], hash[9] = {'c', 'o', 'l', 'm', 'e', 'n', 'a', 'r'};
+	int ciphered=1, passcheck, l, i=0, e=0, plaintxt=0; 
+	//int hex[15] = {0x34, 0x38, 0x3135, 0x3136, 0x3233, 0x3432, 0x6b, 0x72, 0x65, 0x7a, 0x61, 0x6e, 0x79, 0x75, 0x77};  
+	int hex[];//int hex[15];
 	FILE *original, *temp;
+	
+	/*
+	se pide la pass y si esta cifrado, aplica esa pass como clave de descifrado sin comprobar nada,
+	solo hay un intento porque si la pass es incorrecta, descifrara con el patron incorrecto, 
+	dando lugar a un fichero cifrado diferente no esta cifrado, se usa la pass para cifrarlo, 
+	si no esta cifrado pide la clave de cifrado 2 veces y se hace un stringcompare 
+	para verificar que la pass que has dado es la que quieres poner y no te has equivocado
+	si todo ok, aplica la palabra como clave de cifrado
+	*/
+	
+	//scanf("%c", &hash);
 			
 	original=fopen("master.txt", "r"); 
 	temp=fopen("temp.txt", "w");
@@ -25,14 +37,14 @@ int main()
 			if (plaintxt>=70)
 			{
 				ciphered=0;
-				break;		// rompe el for si se alcanzan 70 letras y/o numeros
+				break;		// rompe el for cuando se alcanzan 70 letras y/o numeros
 			}
 		}
 	}
-
+	
     if(ciphered==1)		// si el fichero esta cifrado, pediremos la pass
  	{
-		printf("Cuidado! Solo tienes un intento: \n");
+		printf("Gimme da key: \n");
 		while (e<=20)	// este WHILE es para los asteriscos del pass
 		{
 		    password[e]=getch();
@@ -65,7 +77,7 @@ int main()
 		{	
 			break;
 		}
-		else if(ch=='\n')	// si ch es salto de linea, cambiamos la clave de cifrado
+		else if(ch=='\n')	// si ch es salto de linea
 		{	
 			fputc(ch, temp); // conservamos dicho salto sin cifrar ya que es el que nos marca cuando cambiamos de cifrado
 			i++;
@@ -100,7 +112,6 @@ int main()
 		{	
 			fclose(temp);
 			remove ("temp.txt");	// borramos el temporal para no dejar basura por ahi
-			fclose(original);
 			break;
 		}
 		else
@@ -109,24 +120,30 @@ int main()
 		}
 	}
 	
-	if(ciphered==1) // si estaba cifrado lanzamos un timebomb que nos vuelva a cifrar el fichero por si se nos olvida
-	{
-		printf("\n FICHERO DESCIFRADO "); 
-		Sleep(1000);
-		for (t=60; t!=0; t--)
-		{
-			system("cls");
-			printf("\n El fichero se volvera a cifrar en %d segundos", t);
-			Sleep(1000);
-		}
-		system("cifrador.exe"); // lanza de nuevo el programa de cifrado
-	}
-	if(ciphered==0)
-	{
-		printf("\n FICHERO CIFRADO ");	
-		Sleep(1000);
-	}
+	if(ciphered==1) printf("\n FICHERO DESCIFRADO "); // si estaba cifrado, ya no lo esta, y viceversa
+	if(ciphered==0) printf("\n FICHERO CIFRADO ");	
+	Sleep(1000);
 	return 0;
 }
 
 
+/* PROCEDURE
+OK- convertir el input de char a string y meterle un txt
+OK- meter diccionario hardcodeado de hexadecimal		
+OK- por cada linea i++ y pasa a otro valor hexadecimal	
+OK- aplicar el diccionario al texto						
+OK- añade al final del txt un  hex de fichero cifrado 	
+OK- machacar el original con el temporal				
+OK- limpiar y ordenar el codigo							
+OK- eliminar el fichero temporal							
+OK- al ejecutar, checa los ultimos 8 caracteres del fichero  	
+OK- si no coinciden, cifra el fichero sin pedir interaccion 	
+OK- si coinciden es que ya esta cifrado y pide la contraseña 
+OK-	al introducir el password no debe aparecer en texto plano en pantalla
+OK- cambia el cifrado cada salto de linea, pero para descifrar los saltos de linea no son los mismos
+OK- si se falla sale un format C: o lo que sea
+OK- si es correcta se descifra el fichero sin pedir mas interaccion de usuario
+OK-	intentar unificar las ramas de cifrar y descifrar cambiando el if a delante de ch=ch+hex[i]; o hacer funciones
+OK-	limpiar codigo y documentar
+	variante sin pass harcodeada, pide pass siempre y la usa como el hex de cifrar o descifrar segun corresponda
+*/
